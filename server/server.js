@@ -20,6 +20,10 @@ connectDB();
 //create express app
 const app = express();
 
+//configure express to accept json data in the body
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 //define port
 const port = process.env.PORT || 5000;
 

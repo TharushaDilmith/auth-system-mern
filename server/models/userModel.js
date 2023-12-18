@@ -1,5 +1,6 @@
 //import modules
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 // Create user schema
 const userSchema = mongoose.Schema({
@@ -18,6 +19,17 @@ const userSchema = mongoose.Schema({
     },
 }, {
     timestamps: true
+});
+
+// Create middleware to hash password
+userSchema.pre('save', async function(next) {
+    // Check if password is modified
+    if (!this.isModified('password')) {
+        next();
+    }
+    // Hash password
+    const salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Create user model
