@@ -8,9 +8,14 @@ import {notFound, errorHandler} from './middleware/errorMiddleware.js';
 //import routes
 import userRoutes from './routes/userRoutes.js';
 
-
 //configure dotenv
 dotenv.config();
+
+//import database
+import connectDB from './config/db.js';
+
+//connect to database
+connectDB();
 
 //create express app
 const app = express();
