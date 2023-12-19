@@ -5,6 +5,7 @@ import FormContainer from "../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useRegisterMutation } from "../slices/usersApiSlice.js";
+import { setUser } from "../slices/authSlice.js";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -27,14 +28,13 @@ const RegisterPage = () => {
     e.preventDefault();
     if (password !== confirmPasswrod) {
       toast.error("Confirm password does not match");
-      return;
     } else {
       try {
         const result = await registerUser({ name, email, password }).unwrap();
         dispatch(setUser({...result}));
         navigate("/");
       } catch (error) {
-        toast.error(error?.data?.message);
+        toast.error(error?.data?.message || error.error);
       }
     }
   };
