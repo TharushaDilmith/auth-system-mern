@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useRegisterMutation } from "../slices/usersApiSlice.js";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -9,9 +12,31 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPasswrod, setConfirmPassword] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const [registerUser, { isLoading, error }] = useRegisterMutation();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("submit");
+    if (password !== confirmPasswrod) {
+      toast.error("Confirm password does not match");
+      return;
+    } else {
+      try {
+        const result = await registerUser({ name, email, password }).unwrap();
+        dispatch(setUser({...result}));
+        navigate("/");
+      } catch (error) {
+        toast.error(error?.data?.message);
+      }
+    }
   };
 
   return (
@@ -62,8 +87,8 @@ const RegisterPage = () => {
             }}
           />
         </Form.Group>
-        <Button type="submit" variant="primary">
-          Sign Up
+        <Button type="submit" variant="primary" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign Up"}
         </Button>
       </Form>
       <Row className="py-3">
