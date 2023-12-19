@@ -20,7 +20,14 @@ export const usersApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['User'],
         }),
+        logout: builder.mutation({
+            query: () => ({
+                url: `${USERS_API_ENDPOINT}/logout`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['User'],
+        }),
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = usersApi;
+export const { useLoginMutation, useRegisterMutation, useLogoutMutation } = usersApi;

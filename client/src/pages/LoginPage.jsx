@@ -61,8 +61,8 @@ const LoginPage = () => {
             }}
           />
         </Form.Group>
-        <Button type="submit" variant="primary">
-          Sign In
+        <Button type="submit" variant="primary" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Sign In"}
         </Button>
       </Form>
       <Row className="py-3">
