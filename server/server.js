@@ -8,6 +8,9 @@ import {notFound, errorHandler} from './middleware/errorMiddleware.js';
 //import routes
 import userRoutes from './routes/userRoutes.js';
 
+//cookie parser
+import cookieParser from 'cookie-parser';
+
 //configure dotenv
 dotenv.config();
 
@@ -23,6 +26,9 @@ const app = express();
 //configure express to accept json data in the body
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+//configure cookie parser
+app.use(cookieParser());
 
 //define port
 const port = process.env.PORT || 5000;
