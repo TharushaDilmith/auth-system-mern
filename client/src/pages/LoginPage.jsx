@@ -48,6 +48,7 @@ const LoginPage = () => {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            required
           />
         </Form.Group>
         <Form.Group controlId="password" className="mb-3">
@@ -59,6 +60,7 @@ const LoginPage = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            required
           />
         </Form.Group>
         <Button type="submit" variant="primary" disabled={isLoading}>
